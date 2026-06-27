@@ -130,7 +130,7 @@
       50%      { opacity: 1;   transform: translate(-50%,-50%) scale(1.08); }
     }
 
-    .hero-content { position: relative; z-index: 2; }
+    .hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 2rem; }
 
     .hero-tag {
       display: inline-block;
@@ -146,12 +146,82 @@
       animation: fadeUp 0.7s 0.1s forwards;
     }
 
+    /* ── TERMINAL WIDGET ── */
+    .terminal {
+      width: 100%;
+      max-width: 520px;
+      background: #0d1117;
+      border: 1px solid #2a2a3e;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.15), 0 0 40px rgba(124,58,237,0.08);
+      opacity: 0;
+      animation: fadeUp 0.7s 0.1s forwards;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .terminal-bar {
+      background: #161b22;
+      padding: 0.65rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .terminal-dots { display: flex; gap: 6px; }
+    .terminal-dots span {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+    .dot-red   { background: #ff5f57; }
+    .dot-yellow{ background: #febc2e; }
+    .dot-green { background: #28c840; }
+
+    .terminal-title {
+      flex: 1;
+      text-align: center;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: #484f58;
+    }
+
+    .terminal-body {
+      padding: 1.4rem 1.6rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      line-height: 2;
+    }
+
+    .t-line { display: flex; align-items: flex-start; gap: 0.5rem; }
+    .t-prompt { color: #57ab5a; white-space: nowrap; }
+    .t-cmd    { color: #79c0ff; }
+    .t-arrow  { color: #57ab5a; margin-right: 0.3rem; }
+    .t-out    { color: #adbac7; direction: rtl; text-align: right; flex: 1; }
+    .t-green  { color: #57ab5a; }
+    .t-purple { color: #b392f0; }
+    .t-out-inline { display: flex; align-items: center; gap: 0.5rem; }
+
+    .terminal-cursor {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: var(--accent);
+      vertical-align: middle;
+      margin-right: 4px;
+      animation: blink 1s step-end infinite;
+    }
+
+    /* ── HERO TEXT BELOW TERMINAL ── */
+    .hero-bottom {
+      opacity: 0;
+      animation: fadeUp 0.7s 0.45s forwards;
+    }
+
     .hero h1 {
-      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
       font-weight: 700;
       line-height: 1.1;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.25s forwards;
     }
     .name-ar { color: var(--text); }
     .name-en {
@@ -164,22 +234,18 @@
     }
 
     .hero-desc {
-      margin-top: 1.2rem;
-      font-size: 1.1rem;
+      margin-top: 1rem;
+      font-size: 1.05rem;
       color: var(--muted);
       min-height: 1.8rem;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.4s forwards;
     }
 
     .hero-actions {
-      margin-top: 2.5rem;
+      margin-top: 2rem;
       display: flex;
       gap: 1rem;
       justify-content: center;
       flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.55s forwards;
     }
 
     @keyframes fadeUp {
@@ -293,10 +359,10 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 0.65rem 1.1rem;
+      padding: 0.8rem 1.3rem;
       display: flex;
       align-items: center;
-      gap: 0.55rem;
+      gap: 0.75rem;
       cursor: none;
       position: relative;
       overflow: hidden;
@@ -343,7 +409,7 @@
     }
 
     .skill-logo {
-      width: 22px; height: 22px;
+      width: 32px; height: 32px;
       object-fit: contain;
       flex-shrink: 0;
       transition: transform 0.3s, filter 0.3s;
@@ -356,7 +422,7 @@
 
     .skill-name {
       font-family: 'Fira Code', monospace;
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       font-weight: 600;
       color: var(--text);
       transition: color 0.2s;
@@ -365,7 +431,7 @@
 
     .skill-sub {
       font-family: 'Fira Code', monospace;
-      font-size: 0.65rem;
+      font-size: 0.68rem;
       color: var(--muted);
       margin-right: 0.3rem;
       transition: color 0.2s;
@@ -473,6 +539,7 @@
       .contact-card { flex-direction: column; }
       body { cursor: auto; }
       #cursor, #cursor-ring { display: none; }
+      .terminal { max-width: 100%; }
     }
   </style>
 </head>
@@ -496,17 +563,22 @@
 <div class="hero">
   <div class="hero-glow"></div>
   <div class="hero-content">
-    <h1>
-      <span class="name-ar">الحسن</span>
-      <span class="name-en">ARTHUR</span>
-    </h1>
-    <p class="hero-desc">
-      <span class="typing-cursor"></span><span id="typed"></span>
-    </p>
-    <div class="hero-actions">
-      <a href="#skills" class="btn btn-primary">مهاراتي</a>
-      <a href="#contact" class="btn btn-outline">تواصل معي</a>
+
+    <!-- ── NAME + TYPING + BUTTONS ── -->
+    <div class="hero-bottom">
+      <h1>
+        <span class="name-ar">الحسن</span>
+        <span class="name-en">ARTHUR</span>
+      </h1>
+      <p class="hero-desc">
+        <span class="typing-cursor"></span><span id="typed"></span>
+      </p>
+      <div class="hero-actions">
+        <a href="#skills" class="btn btn-primary">مهاراتي</a>
+        <a href="#contact" class="btn btn-outline">تواصل معي</a>
+      </div>
     </div>
+
   </div>
 </div>
 
@@ -515,10 +587,67 @@
   <div class="reveal">
     <div class="section-label">// من أنا</div>
     <h2 class="section-title">نبذة <span>عني</span></h2>
+
+    <!-- ── TERMINAL WIDGET ── -->
+    <div class="terminal" style="max-width:100%;margin-bottom:2rem;">
+      <div class="terminal-bar">
+        <div class="terminal-dots">
+          <span class="dot-red"></span>
+          <span class="dot-yellow"></span>
+          <span class="dot-green"></span>
+        </div>
+        <div class="terminal-title">hassan@dev:~</div>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line">
+          <span class="t-prompt">hassan@dev:~$</span>
+          <span class="t-cmd">whoami</span>
+        </div>
+        <div class="t-line">
+          <span class="t-arrow">→</span>
+          <span class="t-out">itzArthur</span>
+        </div>
+        <br/>
+        <div class="t-line">
+          <span class="t-prompt">hassan@dev:~$</span>
+          <span class="t-cmd">skills --list</span>
+        </div>
+        <div class="t-line">
+          <span class="t-out-inline">
+            <span class="t-green">languages</span>
+            <span style="color:#484f58">·</span>
+            <span class="t-purple">systems</span>
+            <span style="color:#484f58">·</span>
+            <span class="t-green">mobile</span>
+            <span style="color:#484f58">·</span>
+            <span class="t-purple">web</span>
+            <span style="color:#484f58">·</span>
+            <span class="t-green">game dev</span>
+            <span style="color:#adbac7">16</span>
+            <span class="t-arrow">→</span>
+          </span>
+        </div>
+        <br/>
+        <div class="t-line">
+          <span class="t-prompt">hassan@dev:~$</span>
+          <span class="t-cmd">contact --platform discord</span>
+        </div>
+        <div class="t-line">
+          <span class="t-green">✓</span>
+          <span class="t-out">3q.4</span>
+          <span class="t-arrow">→</span>
+        </div>
+        <br/>
+        <div class="t-line">
+          <span class="t-prompt">hassan@dev:~$</span>
+          <span class="terminal-cursor"></span>
+        </div>
+      </div>
+    </div>
+
     <div class="about-box">
       <p class="about-text">
-        اسمي <strong>الحسن</strong>، مبرمج محترف متخصص في تطوير البرمجيات.
-        أتقن <strong>١٥ لغة برمجية</strong> تشمل لغات النظام كـ <strong>C و C++ و Rust</strong>،
+        اسمي <strong>الحسن</strong>، أتقن <strong>١٥ لغة برمجية</strong> تشمل لغات النظام كـ <strong>C و C++ و Rust</strong>،
         ولغات البرمجة العامة كـ <strong>Python و C# و Go و Ruby</strong>،
         وكذلك لغات البرمجة النصية كـ <strong>Lua و Luau و GDScript</strong>،
         إضافةً للويب كـ <strong>JavaScript و HTML و CSS</strong>،
@@ -623,7 +752,6 @@ document.addEventListener('mousemove', e => {
   cur.style.top  = my + 'px';
 });
 
-// ring follows with lag
 (function loopRing() {
   rx += (mx - rx) * 0.12;
   ry += (my - ry) * 0.12;
@@ -632,7 +760,6 @@ document.addEventListener('mousemove', e => {
   requestAnimationFrame(loopRing);
 })();
 
-// hover state on interactive elements
 document.querySelectorAll('a, button, .skill-card, .about-box, .contact-card').forEach(el => {
   el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
   el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
