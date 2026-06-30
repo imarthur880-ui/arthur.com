@@ -16,10 +16,8 @@
       --muted: #64748b;
       --glow: rgba(124,58,237,0.3);
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--bg);
       color: var(--text);
@@ -28,747 +26,641 @@
       cursor: none;
     }
 
-    /* ── CUSTOM CURSOR ── */
+    /* PAGE SYSTEM */
+    .page { display: none; min-height: 100vh; }
+    .page.active { display: block; }
+
+    /* CURSOR */
     #cursor {
-      position: fixed;
-      width: 10px; height: 10px;
-      background: var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
+      position: fixed; width: 10px; height: 10px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
       transform: translate(-50%, -50%);
       transition: transform 0.08s, width 0.2s, height 0.2s, background 0.2s;
     }
     #cursor-ring {
-      position: fixed;
-      width: 36px; height: 36px;
-      border: 1.5px solid rgba(124,58,237,0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
+      position: fixed; width: 36px; height: 36px;
+      border: 1.5px solid rgba(124,58,237,0.5); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
       transform: translate(-50%, -50%);
-      transition: transform 0.18s ease, width 0.25s, height 0.25s, border-color 0.2s, opacity 0.2s;
+      transition: transform 0.18s ease, width 0.25s, height 0.25s, border-color 0.2s;
     }
-    body.cursor-hover #cursor {
-      width: 16px; height: 16px;
-      background: var(--accent2);
-    }
-    body.cursor-hover #cursor-ring {
-      width: 52px; height: 52px;
-      border-color: rgba(255,255,255,0.6);
-    }
-    body.cursor-click #cursor {
-      width: 8px; height: 8px;
-      background: #fff;
-    }
-    body.cursor-click #cursor-ring {
-      width: 28px; height: 28px;
-      border-color: rgba(255,255,255,0.8);
-    }
+    body.cursor-hover #cursor { width: 16px; height: 16px; background: var(--accent2); }
+    body.cursor-hover #cursor-ring { width: 52px; height: 52px; border-color: rgba(255,255,255,0.6); }
+    body.cursor-click #cursor { width: 8px; height: 8px; background: #fff; }
+    body.cursor-click #cursor-ring { width: 28px; height: 28px; }
 
     /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
       padding: 1rem 2rem;
       background: rgba(10,10,15,0.85);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
     }
     .nav-logo {
-      font-family: 'Fira Code', monospace;
-      color: var(--accent);
-      font-size: 1.1rem;
-      font-weight: 600;
+      font-family: 'Fira Code', monospace; color: var(--accent);
+      font-size: 1.1rem; font-weight: 600; cursor: none;
     }
     .nav-links { display: flex; gap: 1.5rem; list-style: none; }
     .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s;
-      position: relative;
+      color: var(--muted); text-decoration: none; font-size: 0.9rem;
+      transition: color 0.2s; position: relative; cursor: none;
     }
     .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -3px; right: 0;
-      width: 0; height: 1px;
-      background: var(--accent2);
-      transition: width 0.3s;
+      content: ''; position: absolute; bottom: -3px; right: 0;
+      width: 0; height: 1px; background: var(--accent2); transition: width 0.3s;
     }
     .nav-links a:hover { color: var(--accent2); }
     .nav-links a:hover::after { width: 100%; }
+    .nav-links a.nav-shop {
+      color: var(--accent); border: 1px solid rgba(124,58,237,0.4);
+      padding: 0.3rem 0.8rem; border-radius: 6px;
+      font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .nav-links a.nav-shop:hover {
+      background: rgba(124,58,237,0.15); color: #fff; border-color: var(--accent);
+    }
+    .nav-links a.nav-shop::after { display: none; }
 
     /* HERO */
     .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 6rem 2rem 4rem;
-      z-index: 1;
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem 4rem; z-index: 1;
     }
-
     .hero-glow {
-      position: absolute;
-      width: 600px; height: 600px;
+      position: absolute; width: 600px; height: 600px;
       background: radial-gradient(circle, rgba(124,58,237,0.13) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      animation: breathe 5s ease-in-out infinite;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none; animation: breathe 5s ease-in-out infinite;
     }
     @keyframes breathe {
       0%,100% { opacity: 0.7; transform: translate(-50%,-50%) scale(1); }
-      50%      { opacity: 1;   transform: translate(-50%,-50%) scale(1.08); }
+      50% { opacity: 1; transform: translate(-50%,-50%) scale(1.08); }
     }
-
-    .hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 2rem; }
-
-    .hero-tag {
-      display: inline-block;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.8rem;
-      color: var(--accent2);
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 0.3rem 0.9rem;
-      border-radius: 999px;
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.1s forwards;
+    .hero-content {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 2rem;
     }
-
-    /* ── TERMINAL WIDGET ── */
-    .terminal {
-      width: 100%;
-      max-width: 520px;
-      background: #0d1117;
-      border: 1px solid #2a2a3e;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.15), 0 0 40px rgba(124,58,237,0.08);
-      opacity: 0;
-      animation: fadeUp 0.7s 0.1s forwards;
-      direction: ltr;
-      text-align: left;
-    }
-
-    .terminal-bar {
-      background: #161b22;
-      padding: 0.65rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      border-bottom: 1px solid #21262d;
-    }
-
-    .terminal-dots { display: flex; gap: 6px; }
-    .terminal-dots span {
-      width: 12px; height: 12px;
-      border-radius: 50%;
-    }
-    .dot-red   { background: #ff5f57; }
-    .dot-yellow{ background: #febc2e; }
-    .dot-green { background: #28c840; }
-
-    .terminal-title {
-      flex: 1;
-      text-align: center;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.72rem;
-      color: #484f58;
-    }
-
-    .terminal-body {
-      padding: 1.4rem 1.6rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.82rem;
-      line-height: 2;
-    }
-
-    .t-line { display: flex; align-items: flex-start; gap: 0.5rem; }
-    .t-prompt { color: #57ab5a; white-space: nowrap; }
-    .t-cmd    { color: #79c0ff; }
-    .t-arrow  { color: #57ab5a; margin-right: 0.3rem; }
-    .t-out    { color: #adbac7; direction: rtl; text-align: right; flex: 1; }
-    .t-green  { color: #57ab5a; }
-    .t-purple { color: #b392f0; }
-    .t-out-inline { display: flex; align-items: center; gap: 0.5rem; }
-
-    .terminal-cursor {
-      display: inline-block;
-      width: 8px; height: 14px;
-      background: var(--accent);
-      vertical-align: middle;
-      margin-right: 4px;
-      animation: blink 1s step-end infinite;
-    }
-
-    /* ── HERO TEXT BELOW TERMINAL ── */
-    .hero-bottom {
-      opacity: 0;
-      animation: fadeUp 0.7s 0.45s forwards;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
-      font-weight: 700;
-      line-height: 1.1;
-    }
+    .hero-bottom { opacity: 0; animation: fadeUp 0.7s 0.45s forwards; }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 700; line-height: 1.1; }
     .name-ar { color: var(--text); }
     .name-en {
-      display: block;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.5em;
-      color: var(--accent);
-      letter-spacing: 0.15em;
-      margin-top: 0.4rem;
+      display: block; font-family: 'Fira Code', monospace;
+      font-size: 0.5em; color: var(--accent);
+      letter-spacing: 0.15em; margin-top: 0.4rem;
     }
-
-    .hero-desc {
-      margin-top: 1rem;
-      font-size: 1.05rem;
-      color: var(--muted);
-      min-height: 1.8rem;
-    }
-
-    .hero-actions {
-      margin-top: 2rem;
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+    .hero-desc { margin-top: 1rem; font-size: 1.05rem; color: var(--muted); min-height: 1.8rem; }
+    .hero-actions { margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .btn {
-      padding: 0.75rem 1.8rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-family: inherit;
-      cursor: none;
-      text-decoration: none;
-      transition: all 0.25s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      position: relative;
-      overflow: hidden;
+      padding: 0.75rem 1.8rem; border-radius: 8px; font-size: 0.95rem;
+      font-family: inherit; cursor: none; text-decoration: none;
+      transition: all 0.25s; display: inline-flex; align-items: center;
+      gap: 0.5rem; position: relative; overflow: hidden;
     }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      box-shadow: 0 0 20px var(--glow);
-    }
-    .btn-primary:hover {
-      background: #6d28d9;
-      box-shadow: 0 0 40px var(--glow);
-      transform: translateY(-2px);
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-outline:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      transform: translateY(-2px);
-    }
+    .btn-primary { background: var(--accent); color: #fff; border: none; box-shadow: 0 0 20px var(--glow); }
+    .btn-primary:hover { background: #6d28d9; box-shadow: 0 0 40px var(--glow); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
-    /* ripple */
     .ripple-el {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      transform: scale(0);
-      animation: rippleAnim 0.55s linear forwards;
-      pointer-events: none;
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.2); transform: scale(0);
+      animation: rippleAnim 0.55s linear forwards; pointer-events: none;
     }
     @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
 
     /* SECTIONS */
     section {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 5rem 2rem;
+      position: relative; z-index: 1;
+      max-width: 1100px; margin: 0 auto; padding: 5rem 2rem;
     }
     .section-label {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.8rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
+      font-family: 'Fira Code', monospace; font-size: 0.8rem;
+      color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.5rem;
     }
-    .section-title {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 3rem;
-    }
+    .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 3rem; }
     .section-title span { color: var(--accent2); }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
-    }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.65s ease, transform 0.65s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ── SKILLS CATEGORIES ── */
-    .skills-block { margin-bottom: 2.8rem; }
-
-    .cat-row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
+    /* TERMINAL */
+    .terminal {
+      width: 100%; background: #0d1117;
+      border: 1px solid #2a2a3e; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.15), 0 0 40px rgba(124,58,237,0.08);
+      direction: ltr; text-align: left;
     }
+    .terminal-bar {
+      background: #161b22; padding: 0.65rem 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+      border-bottom: 1px solid #21262d;
+    }
+    .terminal-dots { display: flex; gap: 6px; }
+    .terminal-dots span { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-red { background: #ff5f57; }
+    .dot-yellow { background: #febc2e; }
+    .dot-green { background: #28c840; }
+    .terminal-title {
+      flex: 1; text-align: center;
+      font-family: 'Fira Code', monospace; font-size: 0.72rem; color: #484f58;
+    }
+    .terminal-body { padding: 1.4rem 1.6rem; font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 2; }
+    .t-line { display: flex; align-items: flex-start; gap: 0.5rem; }
+    .t-prompt { color: #57ab5a; white-space: nowrap; }
+    .t-cmd { color: #79c0ff; }
+    .t-arrow { color: #57ab5a; margin-right: 0.3rem; }
+    .t-out { color: #adbac7; direction: rtl; text-align: right; flex: 1; }
+    .t-green { color: #57ab5a; }
+    .t-purple { color: #b392f0; }
+    .t-out-inline { display: flex; align-items: center; gap: 0.5rem; }
+    .terminal-cursor {
+      display: inline-block; width: 8px; height: 14px;
+      background: var(--accent); vertical-align: middle;
+      margin-right: 4px; animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* SKILLS */
+    .skills-block { margin-bottom: 2.8rem; }
+    .cat-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
     .cat-name {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      white-space: nowrap;
+      font-family: 'Fira Code', monospace; font-size: 0.7rem;
+      color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap;
     }
     .cat-line { flex: 1; height: 1px; background: var(--border); }
+    .skills-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
 
-    .skills-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.7rem;
-    }
-
-    /* ── SKILL CARD ── */
+    /* SKILL CARD */
     .skill-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.8rem 1.3rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      cursor: none;
-      position: relative;
-      overflow: hidden;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.8rem 1.3rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      cursor: none; position: relative; overflow: hidden;
       transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s, background 0.25s;
-      opacity: 0;
-      transform: translateY(14px);
+      opacity: 0; transform: translateY(14px);
     }
     .skill-card.visible { opacity: 1; transform: translateY(0); }
-
-    /* shimmer sweep */
     .skill-card::before {
-      content: '';
-      position: absolute;
-      top: -60%; left: -80%;
+      content: ''; position: absolute; top: -60%; left: -80%;
       width: 55%; height: 220%;
       background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.07) 50%, transparent 65%);
-      transform: skewX(-18deg);
-      transition: left 0.5s ease;
-      pointer-events: none;
+      transform: skewX(-18deg); transition: left 0.5s ease; pointer-events: none;
     }
     .skill-card:hover::before { left: 160%; }
-
-    /* top accent line */
     .skill-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 15%; right: 15%;
+      content: ''; position: absolute; top: 0; left: 15%; right: 15%;
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      opacity: 0;
-      transition: opacity 0.25s;
+      opacity: 0; transition: opacity 0.25s;
     }
     .skill-card:hover::after { opacity: 1; }
-
     .skill-card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 8px 28px rgba(124,58,237,0.22);
-      transform: translateY(-4px) scale(1.03);
-      background: #1c1c2a;
+      border-color: var(--accent); box-shadow: 0 8px 28px rgba(124,58,237,0.22);
+      transform: translateY(-4px) scale(1.03); background: #1c1c2a;
     }
-    .skill-card:active {
-      transform: translateY(-1px) scale(0.97);
-      box-shadow: 0 3px 12px rgba(124,58,237,0.35);
-    }
-
+    .skill-card:active { transform: translateY(-1px) scale(0.97); }
     .skill-logo {
-      width: 32px; height: 32px;
-      object-fit: contain;
-      flex-shrink: 0;
+      width: 32px; height: 32px; object-fit: contain; flex-shrink: 0;
       transition: transform 0.3s, filter 0.3s;
       filter: brightness(0.85) saturate(0.9);
     }
-    .skill-card:hover .skill-logo {
-      transform: rotate(-8deg) scale(1.15);
-      filter: brightness(1.15) saturate(1.2);
-    }
-
+    .skill-card:hover .skill-logo { transform: rotate(-8deg) scale(1.15); filter: brightness(1.15) saturate(1.2); }
     .skill-name {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text);
-      transition: color 0.2s;
+      font-family: 'Fira Code', monospace; font-size: 0.88rem;
+      font-weight: 600; color: var(--text); transition: color 0.2s;
     }
     .skill-card:hover .skill-name { color: #fff; }
-
     .skill-sub {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.68rem;
-      color: var(--muted);
-      margin-right: 0.3rem;
-      transition: color 0.2s;
+      font-family: 'Fira Code', monospace; font-size: 0.68rem;
+      color: var(--muted); margin-right: 0.3rem; transition: color 0.2s;
     }
     .skill-card:hover .skill-sub { color: var(--accent2); }
 
+    /* SKILL POPUP */
+    .skill-popup-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .skill-popup-overlay.open { opacity: 1; pointer-events: all; }
+    .skill-popup {
+      background: #13131e; border: 1px solid var(--border);
+      border-radius: 20px; padding: 2.2rem 2.5rem;
+      max-width: 440px; width: 90%;
+      position: relative; direction: rtl;
+      transform: translateY(30px) scale(0.96);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
+      opacity: 0;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.2), 0 0 50px rgba(124,58,237,0.07);
+    }
+    .skill-popup-overlay.open .skill-popup { transform: translateY(0) scale(1); opacity: 1; }
+    .skill-popup-close {
+      position: absolute; top: 1.2rem; left: 1.2rem;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(255,255,255,0.07); border: 1px solid var(--border);
+      color: var(--muted); font-size: 1rem; cursor: none;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .skill-popup-close:hover { background: rgba(255,255,255,0.13); color: #fff; }
+    .skill-popup-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.3rem; }
+    .skill-popup-icon {
+      width: 52px; height: 52px; object-fit: contain;
+      border-radius: 12px; background: rgba(255,255,255,0.05);
+      padding: 8px; border: 1px solid var(--border);
+    }
+    .skill-popup-name { font-size: 1.4rem; font-weight: 700; font-family: 'Fira Code', monospace; }
+    .skill-popup-tag {
+      display: inline-block; font-size: 0.7rem;
+      font-family: 'Fira Code', monospace;
+      background: rgba(124,58,237,0.15); color: var(--accent);
+      border: 1px solid rgba(124,58,237,0.3);
+      padding: 0.15rem 0.6rem; border-radius: 999px; margin-top: 0.3rem;
+    }
+    .skill-popup-desc {
+      font-size: 0.97rem; line-height: 1.85; color: #94a3b8;
+      border-top: 1px solid var(--border); padding-top: 1.2rem;
+    }
+    .skill-popup-desc strong { color: #c4b5fd; }
+    .skill-popup-uses {
+      margin-top: 1.2rem; display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .skill-use-tag {
+      font-family: 'Fira Code', monospace; font-size: 0.7rem;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      padding: 0.2rem 0.65rem; border-radius: 6px; color: var(--muted);
+    }
+
     /* ABOUT */
     .about-box {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2.5rem;
-      position: relative;
-      overflow: hidden;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.5rem;
+      position: relative; overflow: hidden;
       transition: border-color 0.3s, box-shadow 0.3s;
     }
-    .about-box:hover {
-      border-color: rgba(124,58,237,0.4);
-      box-shadow: 0 0 30px rgba(124,58,237,0.08);
-    }
+    .about-box:hover { border-color: rgba(124,58,237,0.4); box-shadow: 0 0 30px rgba(124,58,237,0.08); }
     .about-box::after {
-      content: '</>';
-      position: absolute;
-      bottom: -15px; left: 20px;
-      font-family: 'Fira Code', monospace;
-      font-size: 7rem;
-      color: var(--accent);
-      opacity: 0.04;
-      font-weight: 700;
-      pointer-events: none;
+      content: '</>'; position: absolute; bottom: -15px; left: 20px;
+      font-family: 'Fira Code', monospace; font-size: 7rem;
+      color: var(--accent); opacity: 0.04; font-weight: 700; pointer-events: none;
     }
-    .about-text {
-      font-size: 1.05rem;
-      line-height: 2;
-      color: #94a3b8;
-    }
+    .about-text { font-size: 1.05rem; line-height: 2; color: #94a3b8; }
     .about-text strong { color: var(--accent2); }
 
     /* CONTACT */
     .contact-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1.5rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
       transition: border-color 0.3s, box-shadow 0.3s;
     }
-    .contact-card:hover {
-      border-color: #5865f2;
-      box-shadow: 0 0 30px rgba(88,101,242,0.15);
-    }
+    .contact-card:hover { border-color: #5865f2; box-shadow: 0 0 30px rgba(88,101,242,0.15); }
     .contact-info h3 { font-size: 1.4rem; font-weight: 700; }
     .contact-info p { color: var(--muted); margin-top: 0.4rem; font-size: 0.95rem; }
-
     .discord-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      background: #5865f2;
-      color: #fff;
-      padding: 0.8rem 1.6rem;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.25s;
-      box-shadow: 0 0 20px rgba(88,101,242,0.3);
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: #5865f2; color: #fff; padding: 0.8rem 1.6rem;
+      border-radius: 10px; text-decoration: none; font-weight: 600;
+      transition: all 0.25s; box-shadow: 0 0 20px rgba(88,101,242,0.3);
+      font-family: 'Fira Code', monospace; cursor: none;
+      position: relative; overflow: hidden;
+    }
+    .discord-btn:hover { background: #4752c4; transform: translateY(-2px); box-shadow: 0 0 35px rgba(88,101,242,0.5); }
+
+    /* SHOP PAGE */
+    .shop-hero {
+      text-align: center; padding: 8rem 2rem 3rem;
+    }
+    .shop-hero h1 { font-size: 2.5rem; font-weight: 700; }
+    .shop-hero p { color: var(--muted); margin-top: 0.7rem; font-family: 'Fira Code', monospace; font-size: 0.9rem; }
+    .shop-grid {
+      max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 6rem;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .shop-empty {
+      grid-column: 1/-1; text-align: center;
+      padding: 5rem 2rem; color: var(--muted);
       font-family: 'Fira Code', monospace;
-      cursor: none;
-      position: relative;
-      overflow: hidden;
     }
-    .discord-btn:hover {
-      background: #4752c4;
-      transform: translateY(-2px);
-      box-shadow: 0 0 35px rgba(88,101,242,0.5);
+    .shop-empty .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+    .shop-empty p { font-size: 0.9rem; }
+
+    /* SHOP ITEM CARD */
+    .shop-item {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.8rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      position: relative; overflow: hidden; cursor: none;
     }
-    .discord-btn:active { transform: scale(0.96); }
+    .shop-item::after {
+      content: ""; position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .shop-item:hover::after { opacity: 1; }
+    .shop-item:hover {
+      border-color: var(--accent); transform: translateY(-4px);
+      box-shadow: 0 12px 35px rgba(124,58,237,0.2);
+    }
+    .shop-item-badge {
+      display: inline-block; font-family: "Fira Code", monospace;
+      font-size: 0.68rem; background: rgba(124,58,237,0.15);
+      color: var(--accent); border: 1px solid rgba(124,58,237,0.3);
+      padding: 0.2rem 0.65rem; border-radius: 999px; width: fit-content;
+    }
+    .shop-item-name {
+      font-family: "Fira Code", monospace; font-size: 1.2rem;
+      font-weight: 700; color: var(--text);
+    }
+    .shop-item-desc {
+      font-size: 0.95rem; line-height: 1.75; color: #64748b;
+      font-style: italic; min-height: 2.5rem;
+    }
+    .shop-item-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border);
+    }
+    .shop-item-price {
+      font-family: "Fira Code", monospace; font-size: 1.05rem;
+      font-weight: 700; color: #57ab5a;
+    }
+    .shop-item-buy {
+      background: var(--accent); color: #fff; border: none;
+      padding: 0.55rem 1.3rem; border-radius: 8px;
+      font-family: inherit; font-size: 0.88rem; cursor: none;
+      transition: all 0.2s; position: relative; overflow: hidden;
+    }
+    .shop-item-buy:hover { background: #6d28d9; transform: translateY(-2px); box-shadow: 0 0 20px var(--glow); }
 
     footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--muted);
-      font-size: 0.85rem;
-      border-top: 1px solid var(--border);
-      position: relative;
-      z-index: 1;
-      font-family: 'Fira Code', monospace;
+      text-align: center; padding: 2rem; color: var(--muted);
+      font-size: 0.85rem; border-top: 1px solid var(--border);
+      position: relative; z-index: 1; font-family: 'Fira Code', monospace;
     }
-
     .typing-cursor {
-      display: inline-block;
-      width: 2px; height: 1.1em;
-      background: var(--accent);
-      margin-right: 3px;
-      vertical-align: middle;
-      animation: blink 1s step-end infinite;
+      display: inline-block; width: 2px; height: 1.1em;
+      background: var(--accent); margin-right: 3px;
+      vertical-align: middle; animation: blink 1s step-end infinite;
     }
-    @keyframes blink { 50% { opacity: 0; } }
 
     @media (max-width: 600px) {
       .contact-card { flex-direction: column; }
       body { cursor: auto; }
       #cursor, #cursor-ring { display: none; }
-      .terminal { max-width: 100%; }
     }
   </style>
 </head>
 <body>
 
-<!-- CURSOR -->
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">dev.arthur</div>
+  <div class="nav-logo" onclick="showPage('main')" style="cursor:none">dev.arthur</div>
   <ul class="nav-links">
-    <li><a href="#about">نبذة</a></li>
-    <li><a href="#skills">المهارات</a></li>
-    <li><a href="#contact">تواصل</a></li>
+    <li><a href="#" class="nav-shop" onclick="showPage('shop');return false;">🛒 المشتريات</a></li>
+    <li><a href="#about" onclick="showPage('main');setTimeout(()=>document.getElementById('about').scrollIntoView({behavior:'smooth'}),50);return false;">نبذة</a></li>
+    <li><a href="#skills" onclick="showPage('main');setTimeout(()=>document.getElementById('skills').scrollIntoView({behavior:'smooth'}),50);return false;">المهارات</a></li>
+    <li><a href="#contact" onclick="showPage('main');setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),50);return false;">تواصل</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-content">
+<!-- ══════════════════ MAIN PAGE ══════════════════ -->
+<div id="page-main" class="page active">
 
-    <!-- ── NAME + TYPING + BUTTONS ── -->
-    <div class="hero-bottom">
-      <h1>
-        <span class="name-ar">الحسن</span>
-        <span class="name-en">ARTHUR</span>
-      </h1>
-      <p class="hero-desc">
-        <span class="typing-cursor"></span><span id="typed"></span>
-      </p>
-      <div class="hero-actions">
-        <a href="#skills" class="btn btn-primary">مهاراتي</a>
-        <a href="#contact" class="btn btn-outline">تواصل معي</a>
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-bottom">
+        <h1>
+          <span class="name-ar">الحسن</span>
+          <span class="name-en">ARTHUR</span>
+        </h1>
+        <p class="hero-desc">
+          <span class="typing-cursor"></span><span id="typed"></span>
+        </p>
+        <div class="hero-actions">
+          <a href="#skills" class="btn btn-primary" onclick="document.getElementById('skills').scrollIntoView({behavior:'smooth'});return false;">مهاراتي</a>
+          <a href="#contact" class="btn btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;">تواصل معي</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="reveal">
+      <div class="section-label">// من أنا</div>
+      <h2 class="section-title">نبذة <span>عني</span></h2>
+
+      <div class="terminal" style="margin-bottom:2rem;">
+        <div class="terminal-bar">
+          <div class="terminal-dots">
+            <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+          </div>
+          <div class="terminal-title">hassan@dev:~</div>
+        </div>
+        <div class="terminal-body">
+          <div class="t-line"><span class="t-prompt">hassan@dev:~$</span><span class="t-cmd">whoami</span></div>
+          <div class="t-line"><span class="t-arrow">→</span><span class="t-out">itzArthur</span></div>
+          <br/>
+          <div class="t-line"><span class="t-prompt">hassan@dev:~$</span><span class="t-cmd">skills --list</span></div>
+          <div class="t-line">
+            <span class="t-out-inline">
+              <span class="t-green">languages</span><span style="color:#484f58">·</span>
+              <span class="t-purple">systems</span><span style="color:#484f58">·</span>
+              <span class="t-green">mobile</span><span style="color:#484f58">·</span>
+              <span class="t-purple">web</span><span style="color:#484f58">·</span>
+              <span class="t-green">game dev</span>
+              <span style="color:#adbac7">16</span><span class="t-arrow">→</span>
+            </span>
+          </div>
+          <br/>
+          <div class="t-line"><span class="t-prompt">hassan@dev:~$</span><span class="t-cmd">contact --platform discord</span></div>
+          <div class="t-line"><span class="t-green">✓</span><span class="t-out">3q.4</span><span class="t-arrow">→</span></div>
+          <br/>
+          <div class="t-line"><span class="t-prompt">hassan@dev:~$</span><span class="terminal-cursor"></span></div>
+        </div>
+      </div>
+
+      <div class="about-box">
+        <p class="about-text">
+          اسمي <strong>الحسن</strong>، أتقن <strong>١٥ لغة برمجية</strong> تشمل لغات النظام كـ <strong>C و C++ و Rust</strong>،
+          ولغات البرمجة العامة كـ <strong>Python و C# و Go و Ruby</strong>،
+          وكذلك لغات البرمجة النصية كـ <strong>Lua و Luau و GDScript</strong>،
+          إضافةً للويب كـ <strong>JavaScript و HTML و CSS</strong>،
+          وتطوير الموبايل كـ <strong>Swift و Kotlin</strong>،
+          وقواعد البيانات كـ <strong>SQL</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="reveal">
+      <div class="section-label">// ما أتقنه</div>
+      <h2 class="section-title">لغات <span>البرمجة</span></h2>
+    </div>
+
+    <div class="skills-block reveal">
+      <div class="cat-row"><span class="cat-name">System</span><div class="cat-line"></div></div>
+      <div class="skills-row">
+        <div class="skill-card" data-lang="c"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C"><span class="skill-name">C</span><span class="skill-sub">System</span></div>
+        <div class="skill-card" data-lang="cpp"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"><span class="skill-name">C++</span><span class="skill-sub">System</span></div>
+        <div class="skill-card" data-lang="rust"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-original.svg" alt="Rust"><span class="skill-name">Rust</span><span class="skill-sub">Systems</span></div>
       </div>
     </div>
 
+    <div class="skills-block reveal">
+      <div class="cat-row"><span class="cat-name">General Purpose</span><div class="cat-line"></div></div>
+      <div class="skills-row">
+        <div class="skill-card" data-lang="python"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"><span class="skill-name">Python</span><span class="skill-sub">Scripting</span></div>
+        <div class="skill-card" data-lang="csharp"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#"><span class="skill-name">C#</span><span class="skill-sub">OOP</span></div>
+        <div class="skill-card" data-lang="go"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" alt="Go"><span class="skill-name">Go</span><span class="skill-sub">Backend</span></div>
+        <div class="skill-card" data-lang="ruby"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg" alt="Ruby"><span class="skill-name">Ruby</span><span class="skill-sub">Scripting</span></div>
+      </div>
+    </div>
+
+    <div class="skills-block reveal">
+      <div class="cat-row"><span class="cat-name">Web</span><div class="cat-line"></div></div>
+      <div class="skills-row">
+        <div class="skill-card" data-lang="js"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS"><span class="skill-name">JavaScript</span><span class="skill-sub">Web</span></div>
+        <div class="skill-card" data-lang="html"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"><span class="skill-name">HTML</span><span class="skill-sub">Markup</span></div>
+        <div class="skill-card" data-lang="css"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"><span class="skill-name">CSS</span><span class="skill-sub">Styling</span></div>
+      </div>
+    </div>
+
+    <div class="skills-block reveal">
+      <div class="cat-row"><span class="cat-name">Mobile</span><div class="cat-line"></div></div>
+      <div class="skills-row">
+        <div class="skill-card" data-lang="swift"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" alt="Swift"><span class="skill-name">Swift</span><span class="skill-sub">iOS</span></div>
+        <div class="skill-card" data-lang="kotlin"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" alt="Kotlin"><span class="skill-name">Kotlin</span><span class="skill-sub">Android</span></div>
+      </div>
+    </div>
+
+    <div class="skills-block reveal">
+      <div class="cat-row"><span class="cat-name">Scripting / Game</span><div class="cat-line"></div></div>
+      <div class="skills-row">
+        <div class="skill-card" data-lang="lua"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg" alt="Lua"><span class="skill-name">Lua</span><span class="skill-sub">Scripting</span></div>
+        <div class="skill-card" data-lang="luau"><img class="skill-logo" src="https://luau.org/assets/images/luau-white.svg" alt="Luau" style="background:#00b2ff;border-radius:4px;padding:3px;"><span class="skill-name">Luau</span><span class="skill-sub">Roblox</span></div>
+        <div class="skill-card" data-lang="gdscript"><img class="skill-logo" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Godot_icon.svg" alt="GDScript"><span class="skill-name">GDScript</span><span class="skill-sub">Godot</span></div>
+      </div>
+    </div>
+
+    <div class="skills-block reveal">
+      <div class="cat-row"><span class="cat-name">Database</span><div class="cat-line"></div></div>
+      <div class="skills-row">
+        <div class="skill-card" data-lang="sql"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL"><span class="skill-name">SQL</span><span class="skill-sub">Database</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="reveal">
+      <div class="section-label">// تواصل</div>
+      <h2 class="section-title">تواصل <span>معي</span></h2>
+      <div class="contact-card">
+        <div class="contact-info">
+          <h3>هل لديك مشروع أو سؤال؟</h3>
+          <p>تواصل معي على Discord وسأرد في أقرب وقت</p>
+        </div>
+        <a href="https://discord.com/users/3q.4" target="_blank" class="discord-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.11 18.1.13 18.112a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+          </svg>
+          3q.4
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>&lt;made by arthur /&gt; — 2026</footer>
+</div>
+
+<!-- ══════════════════ SHOP PAGE ══════════════════ -->
+<div id="page-shop" class="page">
+  <div class="shop-hero">
+    <div class="section-label" style="text-align:center;">// store</div>
+    <h1>المشتريات <span style="color:var(--accent)"></span></h1>
+    <p style="color:var(--muted);margin-top:0.7rem;font-family:'Fira Code',monospace;font-size:0.9rem;">D:</p>
+  </div>
+  <div class="shop-grid">
+    <div class="shop-item">
+      <div class="shop-item-badge">أختراق</div>
+      <div class="shop-item-name">keylogger</div>
+      <div class="shop-item-desc">— اداة تجسس واختراق تقدر عن طريقه تشوف اي زر يضغطه الضحيه وفقط للبي سي —</div>
+      <div class="shop-item-footer">
+        <div class="shop-item-price">15 IQD</div>
+        <button class="shop-item-buy" onclick="alert('تواصل معي على Discord: 3q.4')">شراء</button>
+      </div>
+    </div>
+  </div>
+  <footer>&lt;made by arthur /&gt; — 2026</footer>
+</div>
+
+<!-- SKILL POPUP -->
+<div class="skill-popup-overlay" id="skillOverlay" onclick="closePopup(event)">
+  <div class="skill-popup" id="skillPopup">
+    <button class="skill-popup-close" onclick="closePopupDirect()">✕</button>
+    <div class="skill-popup-header">
+      <img class="skill-popup-icon" id="popupIcon" src="" alt="">
+      <div>
+        <div class="skill-popup-name" id="popupName"></div>
+        <div class="skill-popup-tag" id="popupTag"></div>
+      </div>
+    </div>
+    <div class="skill-popup-desc" id="popupDesc"></div>
+    <div class="skill-popup-uses" id="popupUses"></div>
   </div>
 </div>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="reveal">
-    <div class="section-label">// من أنا</div>
-    <h2 class="section-title">نبذة <span>عني</span></h2>
-
-    <!-- ── TERMINAL WIDGET ── -->
-    <div class="terminal" style="max-width:100%;margin-bottom:2rem;">
-      <div class="terminal-bar">
-        <div class="terminal-dots">
-          <span class="dot-red"></span>
-          <span class="dot-yellow"></span>
-          <span class="dot-green"></span>
-        </div>
-        <div class="terminal-title">hassan@dev:~</div>
-      </div>
-      <div class="terminal-body">
-        <div class="t-line">
-          <span class="t-prompt">hassan@dev:~$</span>
-          <span class="t-cmd">whoami</span>
-        </div>
-        <div class="t-line">
-          <span class="t-arrow">→</span>
-          <span class="t-out">itzArthur</span>
-        </div>
-        <br/>
-        <div class="t-line">
-          <span class="t-prompt">hassan@dev:~$</span>
-          <span class="t-cmd">skills --list</span>
-        </div>
-        <div class="t-line">
-          <span class="t-out-inline">
-            <span class="t-green">languages</span>
-            <span style="color:#484f58">·</span>
-            <span class="t-purple">systems</span>
-            <span style="color:#484f58">·</span>
-            <span class="t-green">mobile</span>
-            <span style="color:#484f58">·</span>
-            <span class="t-purple">web</span>
-            <span style="color:#484f58">·</span>
-            <span class="t-green">game dev</span>
-            <span style="color:#adbac7">16</span>
-            <span class="t-arrow">→</span>
-          </span>
-        </div>
-        <br/>
-        <div class="t-line">
-          <span class="t-prompt">hassan@dev:~$</span>
-          <span class="t-cmd">contact --platform discord</span>
-        </div>
-        <div class="t-line">
-          <span class="t-green">✓</span>
-          <span class="t-out">3q.4</span>
-          <span class="t-arrow">→</span>
-        </div>
-        <br/>
-        <div class="t-line">
-          <span class="t-prompt">hassan@dev:~$</span>
-          <span class="terminal-cursor"></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="about-box">
-      <p class="about-text">
-        اسمي <strong>الحسن</strong>، أتقن <strong>١٥ لغة برمجية</strong> تشمل لغات النظام كـ <strong>C و C++ و Rust</strong>،
-        ولغات البرمجة العامة كـ <strong>Python و C# و Go و Ruby</strong>،
-        وكذلك لغات البرمجة النصية كـ <strong>Lua و Luau و GDScript</strong>،
-        إضافةً للويب كـ <strong>JavaScript و HTML و CSS</strong>،
-        وتطوير الموبايل كـ <strong>Swift و Kotlin</strong>،
-        وقواعد البيانات كـ <strong>SQL</strong>.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="reveal">
-    <div class="section-label">// ما أتقنه</div>
-    <h2 class="section-title">لغات <span>البرمجة</span></h2>
-  </div>
-
-  <div class="skills-block reveal">
-    <div class="cat-row"><span class="cat-name">System</span><div class="cat-line"></div></div>
-    <div class="skills-row">
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C"><span class="skill-name">C</span><span class="skill-sub">System</span></div>
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"><span class="skill-name">C++</span><span class="skill-sub">System</span></div>
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-original.svg" alt="Rust"><span class="skill-name">Rust</span><span class="skill-sub">Systems</span></div>
-    </div>
-  </div>
-
-  <div class="skills-block reveal">
-    <div class="cat-row"><span class="cat-name">General Purpose</span><div class="cat-line"></div></div>
-    <div class="skills-row">
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"><span class="skill-name">Python</span><span class="skill-sub">Scripting</span></div>
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#"><span class="skill-name">C#</span><span class="skill-sub">OOP</span></div>
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" alt="Go"><span class="skill-name">Go</span><span class="skill-sub">Backend</span></div>
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg" alt="Ruby"><span class="skill-name">Ruby</span><span class="skill-sub">Scripting</span></div>
-    </div>
-  </div>
-
-  <div class="skills-block reveal">
-    <div class="cat-row"><span class="cat-name">Web</span><div class="cat-line"></div></div>
-    <div class="skills-row">
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS"><span class="skill-name">JavaScript</span><span class="skill-sub">Web</span></div>
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"><span class="skill-name">HTML</span><span class="skill-sub">Markup</span></div>
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"><span class="skill-name">CSS</span><span class="skill-sub">Styling</span></div>
-    </div>
-  </div>
-
-  <div class="skills-block reveal">
-    <div class="cat-row"><span class="cat-name">Mobile</span><div class="cat-line"></div></div>
-    <div class="skills-row">
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" alt="Swift"><span class="skill-name">Swift</span><span class="skill-sub">iOS</span></div>
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" alt="Kotlin"><span class="skill-name">Kotlin</span><span class="skill-sub">Android</span></div>
-    </div>
-  </div>
-
-  <div class="skills-block reveal">
-    <div class="cat-row"><span class="cat-name">Scripting / Game</span><div class="cat-line"></div></div>
-    <div class="skills-row">
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg" alt="Lua"><span class="skill-name">Lua</span><span class="skill-sub">Scripting</span></div>
-      <div class="skill-card"><img class="skill-logo" src="https://luau.org/assets/images/luau-white.svg" alt="Luau" style="background:#00b2ff;border-radius:4px;padding:3px;"><span class="skill-name">Luau</span><span class="skill-sub">Roblox</span></div>
-      <div class="skill-card"><img class="skill-logo" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Godot_icon.svg" alt="GDScript"><span class="skill-name">GDScript</span><span class="skill-sub">Godot</span></div>
-    </div>
-  </div>
-
-  <div class="skills-block reveal">
-    <div class="cat-row"><span class="cat-name">Database</span><div class="cat-line"></div></div>
-    <div class="skills-row">
-      <div class="skill-card"><img class="skill-logo" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL"><span class="skill-name">SQL</span><span class="skill-sub">Database</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="reveal">
-    <div class="section-label">// تواصل</div>
-    <h2 class="section-title">تواصل <span>معي</span></h2>
-    <div class="contact-card">
-      <div class="contact-info">
-        <h3>هل لديك مشروع أو سؤال؟</h3>
-        <p>تواصل معي على Discord وسأرد في أقرب وقت</p>
-      </div>
-      <a href="https://discord.com/users/3q.4" target="_blank" class="discord-btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.11 18.1.13 18.112a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
-        </svg>
-        3q.4
-      </a>
-    </div>
-  </div>
-</section>
-
-<footer>&lt;made by arthur /&gt; — 2026</footer>
-
 <script>
-// ── custom cursor ──
+// ── PAGE SWITCHING ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── CURSOR ──
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
 let mx = 0, my = 0, rx = 0, ry = 0;
-
 document.addEventListener('mousemove', e => {
   mx = e.clientX; my = e.clientY;
-  cur.style.left = mx + 'px';
-  cur.style.top  = my + 'px';
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
 });
-
 (function loopRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  ring.style.left = rx + 'px';
-  ring.style.top  = ry + 'px';
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
   requestAnimationFrame(loopRing);
 })();
-
 document.querySelectorAll('a, button, .skill-card, .about-box, .contact-card').forEach(el => {
   el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
   el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
 });
-
 document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
-document.addEventListener('mouseup',   () => document.body.classList.remove('cursor-click'));
+document.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
 
-// ── ripple on clickable elements ──
+// ── RIPPLE ──
 function addRipple(el) {
   el.addEventListener('click', function(e) {
     const rect = el.getBoundingClientRect();
@@ -782,7 +674,7 @@ function addRipple(el) {
 }
 document.querySelectorAll('.btn, .discord-btn, .skill-card').forEach(addRipple);
 
-// ── typing ──
+// ── TYPING ──
 const phrases = ['مبرمج محترف', 'أتقن ١٥ لغة برمجية', 'شغوف بالكود'];
 let pi = 0, ci = 0, deleting = false;
 const typed = document.getElementById('typed');
@@ -800,13 +692,13 @@ function type() {
 }
 type();
 
-// ── scroll reveal ──
+// ── SCROLL REVEAL ──
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-// ── skill cards stagger ──
+// ── SKILL CARDS STAGGER ──
 const cards = document.querySelectorAll('.skill-card');
 const cObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
@@ -818,6 +710,154 @@ const cObs = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.1 });
 cards.forEach(c => cObs.observe(c));
+
+// ── SKILL DATA ──
+const skillData = {
+  c: {
+    name: 'C',
+    tag: 'System Language',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg',
+    desc: 'C هي أم اللغات، كل شي تقريبًا مبني عليها. بتخليك تفهم كيف الكمبيوتر يشتغل من الأساس — الذاكرة، المؤشرات، التحكم الكامل. <strong>صعبة في البداية</strong> بس لما تمسكها تحس إنك تتحكم في كل شي.',
+    uses: ['أنظمة التشغيل', 'Embedded Systems', 'Compilers', 'أداء عالي']
+  },
+  cpp: {
+    name: 'C++',
+    tag: 'System Language',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg',
+    desc: 'C++ هي C بس بعدها أضافوا OOP وخصائص أكثر. تُستخدم كثير في <strong>تطوير الألعاب</strong> وبرامج اللي تحتاج أداء عالي. Unreal Engine مثلاً مبني عليها بالكامل.',
+    uses: ['Game Development', 'Unreal Engine', 'تطبيقات سريعة', 'Compilers']
+  },
+  rust: {
+    name: 'Rust',
+    tag: 'Systems Language',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-original.svg',
+    desc: 'Rust لغة نظام حديثة تجمع <strong>الأمان والأداء</strong> مع بعض. بتمنعك من أخطاء الذاكرة الشائعة اللي تسبب crashes. صعبة شوي في البداية بس ما راح تندم.',
+    uses: ['WebAssembly', 'System Tools', 'Networking', 'CLI Tools']
+  },
+  python: {
+    name: 'Python',
+    tag: 'Scripting',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
+    desc: 'Python من أسهل اللغات وأكثرها استخداماً. تقدر تسوي فيها <strong>بوتات، AI، أتمتة، مواقع</strong> وكل شي تقريبًا. مناسبة للمبتدئين والمحترفين.',
+    uses: ['AI / ML', 'Automation', 'Bots', 'Web Scraping', 'Data']
+  },
+  csharp: {
+    name: 'C#',
+    tag: 'OOP',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg',
+    desc: 'C# لغة من Microsoft، قوية جداً وسهلة القراءة. الاستخدام الأشهر ليها هو <strong>Unity</strong> لتطوير الألعاب، وكذلك تطبيقات Windows.',
+    uses: ['Unity Games', 'Windows Apps', '.NET Backend', 'Desktop']
+  },
+  go: {
+    name: 'Go',
+    tag: 'Backend',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg',
+    desc: 'Go لغة من Google، سريعة ونظيفة وبسيطة. تعتبر الأفضل للـ <strong>Backend والـ APIs</strong>، وتتعامل مع آلاف الـ requests في نفس الوقت بسهولة.',
+    uses: ['REST APIs', 'Microservices', 'CLI Tools', 'Cloud']
+  },
+  ruby: {
+    name: 'Ruby',
+    tag: 'Scripting',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg',
+    desc: 'Ruby لغة أنيقة ومريحة للكتابة. الأشهر فيها هو <strong>Ruby on Rails</strong> اللي بنوا عليه مواقع ضخمة زي GitHub وShopify.',
+    uses: ['Ruby on Rails', 'Web Apps', 'Scripting', 'Automation']
+  },
+  js: {
+    name: 'JavaScript',
+    tag: 'Web',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
+    desc: 'JavaScript هي لغة الويب الأساسية، كل موقع يستخدمها تقريبًا. تقدر تشغلها في <strong>المتصفح والسيرفر</strong> معاً، ومكتباتها ما تنتهي.',
+    uses: ['Frontend', 'Node.js', 'React', 'Discord Bots', 'APIs']
+  },
+  html: {
+    name: 'HTML',
+    tag: 'Markup',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
+    desc: 'HTML هي الهيكل الأساسي لأي موقع. ما هي لغة برمجة بالمعنى الدقيق، بس <strong>بدونها ما في ويب</strong>. تتعلمها في يومين وتفيدك طول عمرك.',
+    uses: ['Web Pages', 'Email Templates', 'Web Apps', 'SEO']
+  },
+  css: {
+    name: 'CSS',
+    tag: 'Styling',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg',
+    desc: 'CSS هي اللي تخلي المواقع تبان حلوة. أنيميشن، ألوان، تنسيق — كلها CSS. بعض الناس تستهين فيها بس <strong>إتقانها صعب</strong> وتحتاج وقت.',
+    uses: ['UI Design', 'Animations', 'Responsive Design', 'Themes']
+  },
+  swift: {
+    name: 'Swift',
+    tag: 'iOS',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg',
+    desc: 'Swift هي لغة Apple الرسمية لتطوير تطبيقات iPhone وMac. سريعة وحديثة وكودها نظيف. لو تبغى <strong>تطور على iOS</strong> ما في بديل.',
+    uses: ['iOS Apps', 'macOS Apps', 'watchOS', 'SwiftUI']
+  },
+  kotlin: {
+    name: 'Kotlin',
+    tag: 'Android',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg',
+    desc: 'Kotlin هي اللغة الرسمية لـ Android اللحين. أحسن من Java بكثير — كودها أقصر وأوضح. Google نفسها تنصح فيها لأي تطوير <strong>Android جديد</strong>.',
+    uses: ['Android Apps', 'Backend (Ktor)', 'Multiplatform', 'Compose']
+  },
+  lua: {
+    name: 'Lua',
+    tag: 'Scripting',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg',
+    desc: 'Lua لغة خفيفة وسريعة جداً، كثير يستخدمونها لـ <strong>تعديل الألعاب</strong> وإضافة scripting لبرامجهم. WoW، Roblox، وكثير من الألعاب تستخدمها.',
+    uses: ['Game Modding', 'Embedded Scripting', 'Roblox', 'Neovim']
+  },
+  luau: {
+    name: 'Luau',
+    tag: 'Roblox',
+    icon: 'https://luau.org/assets/images/luau-white.svg',
+    iconStyle: 'background:#00b2ff;border-radius:4px;padding:3px;',
+    desc: 'Luau هي نسخة Roblox المطورة من Lua. أضافوا عليها <strong>Type Safety</strong> وأداء أفضل. لو تشتغل على Roblox Studio هذي اللغة اللي تستخدمها.',
+    uses: ['Roblox Studio', 'Game Logic', 'UI Scripts', 'Server Scripts']
+  },
+  gdscript: {
+    name: 'GDScript',
+    tag: 'Godot',
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Godot_icon.svg',
+    desc: 'GDScript لغة خصصت لمحرك الألعاب Godot. شكلها يشبه Python بس مصممة أصلاً <strong>للألعاب والـ nodes</strong>. Godot مجاني وخفيف ومناسب للـ indie games.',
+    uses: ['Godot Engine', '2D Games', '3D Games', 'Prototyping']
+  },
+  sql: {
+    name: 'SQL',
+    tag: 'Database',
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
+    desc: 'SQL هي لغة قواعد البيانات الأساسية. تقدر فيها تجيب البيانات، تعدلها، تحذفها، وترتبها. <strong>كل تطبيق تقريبًا</strong> يحتاجها سواء مباشرة أو من وراء framework.',
+    uses: ['MySQL', 'PostgreSQL', 'SQLite', 'Data Analysis', 'Backend']
+  }
+};
+
+// ── SKILL POPUP OPEN ──
+document.querySelectorAll('.skill-card').forEach(card => {
+  card.addEventListener('click', function() {
+    const lang = this.dataset.lang;
+    const data = skillData[lang];
+    if (!data) return;
+
+    document.getElementById('popupIcon').src = data.icon;
+    document.getElementById('popupIcon').style.cssText = data.iconStyle || '';
+    document.getElementById('popupName').textContent = data.name;
+    document.getElementById('popupTag').textContent = data.tag;
+    document.getElementById('popupDesc').innerHTML = data.desc;
+
+    const usesEl = document.getElementById('popupUses');
+    usesEl.innerHTML = data.uses.map(u => `<span class="skill-use-tag">${u}</span>`).join('');
+
+    const overlay = document.getElementById('skillOverlay');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+function closePopup(e) {
+  if (e.target === document.getElementById('skillOverlay')) closePopupDirect();
+}
+function closePopupDirect() {
+  document.getElementById('skillOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopupDirect(); });
 </script>
 </body>
 </html>
