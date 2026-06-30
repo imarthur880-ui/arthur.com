@@ -27,8 +27,16 @@
     }
 
     /* PAGE SYSTEM */
-    .page { display: none; min-height: 100vh; }
-    .page.active { display: block; }
+    .page {
+      display: block; min-height: 100vh;
+      opacity: 0; pointer-events: none;
+      position: absolute; top: 0; left: 0; right: 0;
+      transition: opacity 0.45s ease;
+    }
+    .page.active {
+      opacity: 1; pointer-events: all;
+      position: relative;
+    }
 
     /* CURSOR */
     #cursor {
@@ -600,13 +608,13 @@
   <div class="shop-hero">
     <div class="section-label" style="text-align:center;">// store</div>
     <h1>المشتريات <span style="color:var(--accent)"></span></h1>
-    <p style="color:var(--muted);margin-top:0.7rem;font-family:'Fira Code',monospace;font-size:0.9rem;">D:</p>
+    <p style="color:var(--muted);margin-top:0.7rem;font-family:'Fira Code',monospace;font-size:0.9rem;">O:</p>
   </div>
   <div class="shop-grid">
     <div class="shop-item">
-      <div class="shop-item-badge">أختراق</div>
+      <div class="shop-item-badge">اداة اختراق</div>
       <div class="shop-item-name">keylogger</div>
-      <div class="shop-item-desc">— اداة تجسس واختراق تقدر عن طريقه تشوف اي زر يضغطه الضحيه وفقط للبي سي —</div>
+      <div class="shop-item-desc">اداة تجسس تسجل اي زر تضغطه الضحيه وترسله بويب هوك على الديسكوردويشتغل هذا النوع فقط على الكمبيوتر</div>
       <div class="shop-item-footer">
         <div class="shop-item-price">15 IQD</div>
         <button class="shop-item-buy" onclick="alert('تواصل معي على Discord: 3q.4')">شراء</button>
@@ -635,9 +643,19 @@
 <script>
 // ── PAGE SWITCHING ──
 function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  window.scrollTo(0, 0);
+  const current = document.querySelector('.page.active');
+  const next = document.getElementById('page-' + name);
+  if (current === next) return;
+  current.style.opacity = '0';
+  current.style.pointerEvents = 'none';
+  setTimeout(() => {
+    current.classList.remove('active');
+    next.classList.add('active');
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+      next.style.opacity = '';
+    }, 20);
+  }, 380);
 }
 
 // ── CURSOR ──
